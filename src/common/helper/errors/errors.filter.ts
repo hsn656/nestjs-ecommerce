@@ -18,11 +18,13 @@ export class ErrorsFilter implements ExceptionFilter {
     const message = exception.message;
     const httpStatus =
       exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
-
+    const errorMessage = (exception.getResponse() as HttpException).message;
+    const errors = Array.isArray(errorMessage) ? errorMessage : [errorMessage];
     const responseBody = {
       success: false,
       message,
       data: null,
+      errors,
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
