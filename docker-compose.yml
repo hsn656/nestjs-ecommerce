@@ -5,8 +5,8 @@ services:
     environment:
       POSTGRES_USER: hassan
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: ecommerceDB
     volumes:
       - ./database-data:/var/lib/postgresql/data/
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:5432
