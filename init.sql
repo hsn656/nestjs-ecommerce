@@ -1,4 +1,4 @@
-CREATE DATABASE ecommerceDB;
+CREATE DATABASE ecommercedb;
 
 -- for test db
-CREATE DATABASE ecommerceTestDB;
+CREATE DATABASE ecommerceTestdb;
