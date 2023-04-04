@@ -15,6 +15,7 @@ export const configuration = () => ({
     name: process.env.DATABASE_NAME || 'ecommercedb',
     user: process.env.DATABASE_USER || 'hassan',
     password: process.env.DATABASE_PASSWORD || 'password',
+    entities: process.env.DATABASE_ENTITIES || 'dist/**/*.entity.{ts,js}',
   },
   jwt: {
     secret: process.env.JWT_SECRET || 'secret',
