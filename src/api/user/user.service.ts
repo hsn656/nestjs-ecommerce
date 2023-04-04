@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -28,5 +28,9 @@ export class UserService {
     });
 
     return user;
+  }
+
+  public async comparePassword(password, userPassword): Promise<boolean> {
+    return compare(password, userPassword);
   }
 }
