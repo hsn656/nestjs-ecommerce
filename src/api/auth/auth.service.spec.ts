@@ -1,4 +1,7 @@
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
+import { configuration } from 'src/config';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
@@ -6,6 +9,7 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   let service: AuthService;
   let fakeUserService: Partial<UserService>;
+
   const newUser = {
     id: 1,
     email: 'testuser@example.com',
@@ -20,6 +24,9 @@ describe('AuthService', () => {
       findByEmail: () => {
         return null;
       },
+      comparePassword: () => {
+        return Promise.resolve(true);
+      },
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -29,9 +36,21 @@ describe('AuthService', () => {
           useValue: fakeUserService,
         },
       ],
+      imports: [
+        JwtModule.register({
+          global: true,
+          secret: process.env.JWT_SECRET,
+          signOptions: { expiresIn: '60s' },
+        }),
+        ConfigModule.forRoot({ load: [configuration], isGlobal: true }),
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -47,7 +66,7 @@ describe('AuthService', () => {
       expect(result).toStrictEqual(newUser);
     });
 
-    it('should success', async () => {
+    it('should throw error if user exists', async () => {
       fakeUserService.findByEmail = () => {
         return Promise.resolve(newUser);
       };
@@ -57,6 +76,39 @@ describe('AuthService', () => {
         password: 'password',
       });
       expect(result).rejects.toThrowError('user already exist');
+    });
+  });
+
+  describe('test login method', () => {
+    it('should success', async () => {
+      fakeUserService.findByEmail = () => {
+        return Promise.resolve(newUser);
+      };
+
+      const result = await service.login({
+        email: 'email',
+        password: 'password',
+      });
+      expect(result).toHaveProperty('accessToken');
+    });
+
+    it('should throw error if not registered', async () => {
+      const result = service.login({
+        email: 'email',
+        password: 'password',
+      });
+      expect(result).rejects.toThrowError('wrong data provided');
+    });
+
+    it('should throw error if wrong password', async () => {
+      fakeUserService.comparePassword = () => {
+        return Promise.resolve(false);
+      };
+      const result = service.login({
+        email: 'email',
+        password: 'password',
+      });
+      expect(result).rejects.toThrowError('wrong data provided');
     });
   });
 });
