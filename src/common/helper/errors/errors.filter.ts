@@ -21,7 +21,7 @@ export class ErrorsFilter implements ExceptionFilter {
     const errorMessage = (exception.getResponse() as HttpException).message;
     const errors = Array.isArray(errorMessage) ? errorMessage : [errorMessage];
     const responseBody = {
-      success: false,
+      isSuccess: false,
       message,
       data: null,
       errors,
