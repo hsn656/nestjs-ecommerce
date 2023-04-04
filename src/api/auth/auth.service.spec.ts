@@ -63,7 +63,7 @@ describe('AuthService', () => {
         email: 'email',
         password: 'password',
       });
-      expect(result).toStrictEqual(newUser);
+      expect(result).toStrictEqual({ message: 'success' });
     });
 
     it('should throw error if user exists', async () => {
@@ -109,6 +109,16 @@ describe('AuthService', () => {
         password: 'password',
       });
       expect(result).rejects.toThrowError('wrong data provided');
+    });
+  });
+
+  describe('test generate token method', () => {
+    it('should success', async () => {
+      const result = await service.generateToken({
+        email: 'email',
+        id: 1,
+      });
+      expect(result).toHaveProperty('accessToken');
     });
   });
 });

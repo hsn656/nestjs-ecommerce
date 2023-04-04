@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { User } from '../user/user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
@@ -11,10 +10,8 @@ describe('AuthController', () => {
     fakeAuthService = {
       register: () => {
         return Promise.resolve({
-          id: 1,
-          email: 'testuser@example.com',
-          password: 'password',
-        } as User);
+          message: 'success',
+        });
       },
     };
 

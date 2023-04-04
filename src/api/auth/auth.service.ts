@@ -31,26 +31,27 @@ export class AuthService {
     if (!isValidPassword)
       throw new UnauthorizedException('wrong data provided');
 
-    const accessToken = await this.generateToken({
+    return this.generateToken({
       id: alreadyExistingUser.id,
       email,
     });
-
-    return { accessToken };
   }
 
-  async register(user: CreateUserDto): Promise<User> {
+  async register(user: CreateUserDto) {
     const alreadyExistingUser = await this.userService.findByEmail(user.email);
     if (alreadyExistingUser) throw new ConflictException('user already exist');
 
-    const newUser = this.userService.createUser(user);
-    return newUser;
+    await this.userService.createUser(user);
+    return {
+      message: 'success',
+    };
   }
 
   async generateToken(payload: PayloadDto) {
-    console.log('JWT_SECRET ', this.configService.get('jwt.secret'));
-    return this.jwtService.signAsync(payload, {
+    const accessToken = await this.jwtService.signAsync(payload, {
       secret: this.configService.get('jwt.secret'),
     });
+
+    return { accessToken };
   }
 }
