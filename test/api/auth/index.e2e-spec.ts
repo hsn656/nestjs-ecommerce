@@ -20,11 +20,11 @@ describe('AuthController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     userRepository = moduleFixture.get('UserRepository');
+    userRepository.delete({});
     await app.init();
   });
 
   afterEach(async () => {
-    userRepository.delete({});
     await app.close;
   });
 
