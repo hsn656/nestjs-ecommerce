@@ -4,6 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from 'src/app.module';
 import { Repository } from 'typeorm';
 import { User } from 'src/api/user/user.entity';
+import { errorMessages } from 'src/shared/errors';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -43,7 +44,9 @@ describe('AuthController (e2e)', () => {
         .send(user);
 
       expect(response.body.isSuccess).toBe(false);
-      expect(response.body.message).toBe('user already exist');
+      expect(response.body.message).toBe(
+        errorMessages.auth.userAlreadyExist.en,
+      );
     });
   });
 
@@ -66,7 +69,7 @@ describe('AuthController (e2e)', () => {
           password: 'wrong password',
         });
       expect(response.body.isSuccess).toBe(false);
-      expect(response.body.message).toBe('wrong data provided');
+      expect(response.body.message).toBe(errorMessages.auth.wronCredentials.en);
     });
 
     it('should fail if wrong email', async () => {
@@ -78,7 +81,7 @@ describe('AuthController (e2e)', () => {
           email: 'wrong@test.com',
         });
       expect(response.body.isSuccess).toBe(false);
-      expect(response.body.message).toBe('wrong data provided');
+      expect(response.body.message).toBe(errorMessages.auth.wronCredentials.en);
     });
   });
 });

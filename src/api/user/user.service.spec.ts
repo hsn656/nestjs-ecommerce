@@ -3,6 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 import { Repository } from 'typeorm';
+import { errorMessages } from 'src/shared/errors';
 
 describe('UserService', () => {
   let service: UserService;
@@ -45,7 +46,7 @@ describe('UserService', () => {
         return Promise.resolve(null);
       };
       const result = service.findById(1);
-      expect(result).rejects.toThrowError('user not found');
+      expect(result).rejects.toThrowError(errorMessages.user.notFound.en);
     });
   });
 });

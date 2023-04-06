@@ -5,8 +5,8 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { errorMessages } from 'src/shared/errors';
 import { CreateUserDto } from '../user/user.dto';
-import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { PayloadDto } from './auth.dto';
 
@@ -22,14 +22,14 @@ export class AuthService {
     const { email, password } = user;
     const alreadyExistingUser = await this.userService.findByEmail(email);
     if (!alreadyExistingUser)
-      throw new UnauthorizedException('wrong data provided');
+      throw new UnauthorizedException(errorMessages.auth.wronCredentials.en);
 
     const isValidPassword = await this.userService.comparePassword(
       password,
       alreadyExistingUser.password,
     );
     if (!isValidPassword)
-      throw new UnauthorizedException('wrong data provided');
+      throw new UnauthorizedException(errorMessages.auth.wronCredentials.en);
 
     return this.generateToken({
       id: alreadyExistingUser.id,
@@ -39,7 +39,8 @@ export class AuthService {
 
   async register(user: CreateUserDto) {
     const alreadyExistingUser = await this.userService.findByEmail(user.email);
-    if (alreadyExistingUser) throw new ConflictException('user already exist');
+    if (alreadyExistingUser)
+      throw new ConflictException(errorMessages.auth.userAlreadyExist.en);
 
     await this.userService.createUser(user);
     return {

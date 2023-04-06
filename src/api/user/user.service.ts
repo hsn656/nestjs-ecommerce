@@ -4,6 +4,7 @@ import { CreateUserDto } from './user.dto';
 import { User } from './user.entity';
 import { hash, compare } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { errorMessages } from 'src/shared/errors';
 
 @Injectable()
 export class UserService {
@@ -41,7 +42,7 @@ export class UserService {
       },
     });
     if (!user) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException(errorMessages.user.notFound.en);
     }
     return user;
   }

@@ -2,6 +2,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { configuration } from 'src/config';
+import { errorMessages } from 'src/shared/errors';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
@@ -75,7 +76,9 @@ describe('AuthService', () => {
         email: 'email',
         password: 'password',
       });
-      expect(result).rejects.toThrowError('user already exist');
+      expect(result).rejects.toThrowError(
+        errorMessages.auth.userAlreadyExist.en,
+      );
     });
   });
 
@@ -97,7 +100,9 @@ describe('AuthService', () => {
         email: 'email',
         password: 'password',
       });
-      expect(result).rejects.toThrowError('wrong data provided');
+      expect(result).rejects.toThrowError(
+        errorMessages.auth.wronCredentials.en,
+      );
     });
 
     it('should throw error if wrong password', async () => {
@@ -108,7 +113,9 @@ describe('AuthService', () => {
         email: 'email',
         password: 'password',
       });
-      expect(result).rejects.toThrowError('wrong data provided');
+      expect(result).rejects.toThrowError(
+        errorMessages.auth.wronCredentials.en,
+      );
     });
   });
 
