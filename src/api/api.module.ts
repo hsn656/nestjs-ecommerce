@@ -4,9 +4,10 @@ import { ErrorsFilter } from 'src/common/helper/errors/errors.filter';
 import { SucessResponseInterceptor } from 'src/common/helper/sucess-response.interceptor';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
-  imports: [AuthModule, UserModule],
+  imports: [AuthModule, UserModule, RoleModule],
   providers: [
     {
       provide: APP_INTERCEPTOR,
