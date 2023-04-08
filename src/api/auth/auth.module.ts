@@ -7,6 +7,7 @@ import { User } from '../user/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './auth.guard';
+import { RoleModule } from '../role/role.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AuthGuard } from './auth.guard';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '3h' },
     }),
+    RoleModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, UserService, AuthGuard],

@@ -3,6 +3,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { configuration } from 'src/config';
 import { errorMessages } from 'src/shared/errors';
+import { Role } from '../role/role.entity';
+import { RoleIds, Roles } from '../role/role.enum';
+import { RoleService } from '../role/role.service';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
@@ -10,12 +13,18 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   let service: AuthService;
   let fakeUserService: Partial<UserService>;
+  let fakeRoleService: Partial<RoleService>;
 
   const newUser = {
     id: 1,
     email: 'testuser@example.com',
     password: 'password',
   } as User;
+
+  const customerRole = {
+    id: RoleIds.Customer,
+    name: Roles.Customer,
+  } as Role;
 
   beforeEach(async () => {
     fakeUserService = {
@@ -29,6 +38,12 @@ describe('AuthService', () => {
         return Promise.resolve(true);
       },
     };
+
+    fakeRoleService = {
+      findById: () => {
+        return Promise.resolve(customerRole);
+      },
+    };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
@@ -36,12 +51,16 @@ describe('AuthService', () => {
           provide: UserService,
           useValue: fakeUserService,
         },
+        {
+          provide: RoleService,
+          useValue: fakeRoleService,
+        },
       ],
       imports: [
         JwtModule.register({
           global: true,
           secret: process.env.JWT_SECRET,
-          signOptions: { expiresIn: '60s' },
+          signOptions: { expiresIn: '3h' },
         }),
         ConfigModule.forRoot({ load: [configuration], isGlobal: true }),
       ],

@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   VersionColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Role } from '../role/role.entity';
 
 @Entity()
 export class User {
@@ -17,6 +20,10 @@ export class User {
 
   @Column({ type: 'varchar' })
   public password: string;
+
+  @ManyToMany(() => Role, (role) => role.users)
+  @JoinTable({ name: 'user_roles' })
+  roles: Role[];
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;
