@@ -7,17 +7,20 @@ import { errorMessages } from 'src/shared/errors';
 
 describe('UserService', () => {
   let service: UserService;
-  const fakeUserRepo: Partial<Repository<User>> = {
-    findOne: () => {
-      return Promise.resolve(user);
-    },
-  };
+  let fakeUserRepo: Partial<Repository<User>>;
   const user = {
     id: 1,
     email: 'test@test.com',
+    password: '123456678',
   } as User;
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+    fakeUserRepo = {
+      findOne: jest.fn().mockImplementation(() => Promise.resolve(user)),
+      save: jest.fn().mockImplementation(() => Promise.resolve(user)),
+      create: jest.fn().mockImplementation(() => Promise.resolve(user)),
+    };
     const moduleRef = await Test.createTestingModule({
       providers: [
         UserService,
@@ -35,18 +38,56 @@ describe('UserService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('get user by Id', () => {
+  describe('findById: get user by Id', () => {
     it('should success', async () => {
       const result = await service.findById(1);
+
+      expect(fakeUserRepo.findOne).toBeCalled();
       expect(result.id).toBe(user.id);
     });
 
     it('should throw error if not found', async () => {
-      fakeUserRepo.findOne = () => {
-        return Promise.resolve(null);
-      };
+      fakeUserRepo.findOne = jest
+        .fn()
+        .mockImplementation(() => Promise.resolve(null));
       const result = service.findById(1);
+
+      expect(fakeUserRepo.findOne).toBeCalled();
       expect(result).rejects.toThrowError(errorMessages.user.notFound.en);
+    });
+  });
+
+  describe('findByEmail: get user by email', () => {
+    it('should success', async () => {
+      const result = await service.findByEmail('test@test.com');
+      expect(fakeUserRepo.findOne).toBeCalled();
+      expect(result.id).toBe(user.id);
+    });
+
+    it('will be null', async () => {
+      fakeUserRepo.findOne = jest
+        .fn()
+        .mockImplementation(() => Promise.resolve(null));
+      const result = await service.findByEmail('notFound@test.com');
+
+      expect(fakeUserRepo.findOne).toBeCalled();
+      expect(result).toBe(null);
+    });
+  });
+
+  describe('save: save with userRepository', () => {
+    it('should success', async () => {
+      await service.save(user);
+      expect(fakeUserRepo.save).toBeCalled();
+    });
+  });
+
+  describe('create: create user', () => {
+    it('should success', async () => {
+      const result = await service.createUser(user);
+      expect(fakeUserRepo.create).toBeCalled();
+      expect(fakeUserRepo.save).toBeCalled();
+      expect(result.id).toBe(user.id);
     });
   });
 });
