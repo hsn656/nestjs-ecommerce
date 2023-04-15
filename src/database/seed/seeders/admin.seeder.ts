@@ -10,8 +10,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AdminSeeder implements SeederInterface {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
     @InjectRepository(Role)
     private readonly rolesRepository: Repository<Role>,
     private readonly config: ConfigService,
@@ -21,18 +19,17 @@ export class AdminSeeder implements SeederInterface {
 
   async seed() {
     const data: Partial<User> = await this.generateData();
-    // await this.userRepository.upsert(data, {
-    //   conflictPaths: ['email'],
-    // });
     await this.entityManager.transaction(async (transactionalEntityManager) => {
-      const result = await this.userRepository.upsert(data, {
+      const result = await transactionalEntityManager.upsert(User, data, {
         conflictPaths: ['email'],
       });
-      const adminUser = await this.userRepository.findOne({
-        where: {
-          id: result.raw[0].id,
-        },
-      });
+      const adminUser = await transactionalEntityManager
+        .getRepository(User)
+        .findOne({
+          where: {
+            id: result.raw[0].id,
+          },
+        });
       adminUser.roles = data.roles;
       await transactionalEntityManager.save(adminUser);
     });
