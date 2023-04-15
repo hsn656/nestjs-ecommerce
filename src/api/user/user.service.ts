@@ -6,6 +6,7 @@ import { hash, compare } from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { errorMessages } from 'src/shared/errors';
 import { Role } from '../role/role.entity';
+import { UserRelation } from './user.types';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,7 @@ export class UserService {
 
   public async findByEmail(
     email: string,
-    relations?: { roles: boolean },
+    relations?: UserRelation,
   ): Promise<User> {
     const user: User = await this.repository.findOne({
       where: {
@@ -43,15 +44,20 @@ export class UserService {
     return compare(password, userPassword);
   }
 
-  public async findById(id: number): Promise<User> {
+  public async findById(id: number, relations?: UserRelation): Promise<User> {
     const user: User = await this.repository.findOne({
       where: {
         id,
       },
+      relations,
     });
     if (!user) {
       throw new NotFoundException(errorMessages.user.notFound.en);
     }
     return user;
+  }
+
+  public async update(user: User) {
+    await this.repository.save(user);
   }
 }

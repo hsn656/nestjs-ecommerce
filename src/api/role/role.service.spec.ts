@@ -4,6 +4,7 @@ import { RoleService } from './role.service';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { RoleIds, Roles } from './role.enum';
+import { UserService } from '../user/user.service';
 
 describe('RoleService', () => {
   let service: RoleService;
@@ -17,6 +18,8 @@ describe('RoleService', () => {
     },
   };
 
+  const fakeUserService = {};
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -24,6 +27,10 @@ describe('RoleService', () => {
         {
           provide: getRepositoryToken(Role),
           useValue: fakeRoleRepo,
+        },
+        {
+          provide: UserService,
+          useValue: fakeUserService,
         },
       ],
     }).compile();

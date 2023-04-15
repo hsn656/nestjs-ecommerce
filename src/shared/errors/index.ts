@@ -12,6 +12,9 @@ export const errorMessages = {
     invlidToken: {
       en: 'invlid token',
     },
+    notAllowed: {
+      en: 'not allowed',
+    },
   },
   user: {
     notFound: {

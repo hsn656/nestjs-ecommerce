@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { configuration } from 'src/config';
 import { TypeOrmConfigService } from 'src/shared/typeorm/typeorm.service';
 import { AuthModule } from '../auth/auth.module';
+import { UserService } from '../user/user.service';
 import { RoleController } from './role.controller';
 import { Role } from './role.entity';
 import { RoleIds, Roles } from './role.enum';
@@ -12,6 +13,8 @@ import { RoleService } from './role.service';
 describe('RoleController', () => {
   let controller: RoleController;
   let fakeRoleService: Partial<RoleService>;
+  let fakeUserService: Partial<UserService>;
+
   const customerRole = {
     id: RoleIds.Customer,
     name: Roles.Customer,
@@ -23,12 +26,17 @@ describe('RoleController', () => {
         return Promise.resolve(customerRole);
       },
     };
+    fakeUserService = {};
     const module: TestingModule = await Test.createTestingModule({
       controllers: [RoleController],
       providers: [
         {
           provide: RoleService,
           useValue: fakeRoleService,
+        },
+        {
+          provide: UserService,
+          useValue: fakeUserService,
         },
       ],
       imports: [
