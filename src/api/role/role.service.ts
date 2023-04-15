@@ -19,7 +19,7 @@ export class RoleService {
     if (!user.roles.some((userRole) => userRole.id === data.roleId)) {
       user.roles.push(role);
     }
-    await this.userService.update(user);
+    await this.userService.save(user);
   }
 
   async findById(roleId: number) {

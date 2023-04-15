@@ -57,7 +57,7 @@ export class UserService {
     return user;
   }
 
-  public async update(user: User) {
+  public async save(user: User) {
     await this.repository.save(user);
   }
 }
