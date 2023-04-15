@@ -5,9 +5,10 @@ import { SucessResponseInterceptor } from 'src/common/helper/sucess-response.int
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { RoleModule } from './role/role.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
-  imports: [AuthModule, UserModule, RoleModule],
+  imports: [AuthModule, UserModule, RoleModule, ProductModule],
   providers: [
     {
       provide: APP_INTERCEPTOR,

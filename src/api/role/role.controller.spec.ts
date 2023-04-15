@@ -6,7 +6,7 @@ import { TypeOrmConfigService } from 'src/shared/typeorm/typeorm.service';
 import { AuthModule } from '../auth/auth.module';
 import { UserService } from '../user/user.service';
 import { RoleController } from './role.controller';
-import { Role } from './role.entity';
+import { Role } from './entities/role.entity';
 import { RoleIds, Roles } from './role.enum';
 import { RoleService } from './role.service';
 

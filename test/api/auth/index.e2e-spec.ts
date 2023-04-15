@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from 'src/app.module';
 import { Repository } from 'typeorm';
-import { User } from 'src/api/user/user.entity';
+import { User } from 'src/api/user/entities/user.entity';
 import { errorMessages } from 'src/shared/errors';
 
 describe('AuthController (e2e)', () => {

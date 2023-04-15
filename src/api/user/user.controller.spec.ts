@@ -5,7 +5,7 @@ import { configuration } from 'src/config';
 import { TypeOrmConfigService } from 'src/shared/typeorm/typeorm.service';
 import { AuthModule } from '../auth/auth.module';
 import { UserController } from './user.controller';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
 describe('UserController', () => {
