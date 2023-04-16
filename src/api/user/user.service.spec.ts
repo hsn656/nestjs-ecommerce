@@ -77,8 +77,9 @@ describe('UserService', () => {
 
   describe('save: save with userRepository', () => {
     it('should success', async () => {
-      await service.save(user);
+      const result = await service.save(user);
       expect(fakeUserRepo.save).toBeCalled();
+      expect(result.id).toBe(user.id);
     });
   });
 
