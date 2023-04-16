@@ -3,11 +3,12 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { productDetails } from '../product.types';
+import { Category } from './category.entity';
 
 @Entity()
 export class Product {
@@ -29,8 +30,11 @@ export class Product {
   @Column({ type: 'jsonb' })
   public details: Partial<productDetails>;
 
-  @ManyToMany(() => User, (user) => user.roles)
-  public users: User[];
+  @ManyToOne(() => User, (user) => user.products)
+  public merchant: User;
+
+  @ManyToOne(() => Category, (category) => category.products)
+  public category: Category;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

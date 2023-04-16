@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Role } from 'src/api/role/role.entity';
 import { SeederInterface } from '../seeder.interface';
 import { RoleIds, Roles } from 'src/api/role/role.enum';
+import { Role } from 'src/api/role/entities/role.entity';
 
 @Injectable()
 export class RolesSeeder implements SeederInterface {
@@ -20,19 +20,13 @@ export class RolesSeeder implements SeederInterface {
   }
 
   generateData(): Partial<Role>[] {
-    return [
-      {
-        id: RoleIds.Customer,
-        name: Roles.Customer,
-      },
-      {
-        id: RoleIds.Merchant,
-        name: Roles.Merchant,
-      },
-      {
-        id: RoleIds.Admin,
-        name: Roles.Admin,
-      },
-    ];
+    const data: Partial<Role>[] = [];
+    Object.keys(Roles).forEach((key) => {
+      data.push({
+        id: RoleIds[key],
+        name: Roles[key],
+      });
+    });
+    return data;
   }
 }

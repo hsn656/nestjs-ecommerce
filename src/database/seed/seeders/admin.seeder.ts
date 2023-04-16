@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Repository, EntityManager } from 'typeorm';
-import { Role } from 'src/api/role/role.entity';
 import { SeederInterface } from '../seeder.interface';
 import { User } from 'src/api/user/entities/user.entity';
 import { hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { Role } from 'src/api/role/entities/role.entity';
 
 @Injectable()
 export class AdminSeeder implements SeederInterface {

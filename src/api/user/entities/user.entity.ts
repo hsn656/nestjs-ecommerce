@@ -1,12 +1,13 @@
+import { Product } from 'src/api/product/entities/product.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  VersionColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Role } from '../../role/entities/role.entity';
 
@@ -25,12 +26,12 @@ export class User {
   @JoinTable({ name: 'user_roles' })
   roles: Role[];
 
+  @OneToMany(() => Product, (product) => product.merchant)
+  products: Product;
+
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
-
-  @VersionColumn()
-  version: number;
 }
