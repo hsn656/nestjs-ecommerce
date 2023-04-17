@@ -26,6 +26,11 @@ export const errorMessages = {
       en: 'role not found',
     },
   },
+  category: {
+    notFound: {
+      en: 'category not found',
+    },
+  },
   global: {
     internalError: {
       en: 'something went wrong',
