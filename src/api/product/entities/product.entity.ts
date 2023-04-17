@@ -5,6 +5,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  JoinColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { productDetails } from '../product.types';
@@ -18,22 +19,30 @@ export class Product {
   @Column({ type: 'varchar' })
   public title: string;
 
-  @Column({ type: 'text' })
-  public description: string;
+  @Column({ type: 'text', nullable: true })
+  public description?: string | null;
 
-  @Column({ type: 'text', array: true })
-  public about: string[];
+  @Column({ type: 'text', array: true, default: [] })
+  public about?: string[];
 
-  @Column({ type: 'text', array: true })
+  @Column({ type: 'text', array: true, default: [] })
   public imageUrls: string[];
 
-  @Column({ type: 'jsonb' })
-  public details: Partial<productDetails>;
+  @Column({ type: 'jsonb', nullable: true })
+  public details: Partial<productDetails> | null;
+
+  @Column({ default: false })
+  public isActive: boolean;
+
+  @Column({ type: 'int', nullable: true })
+  merchantId: number;
 
   @ManyToOne(() => User, (user) => user.products)
+  @JoinColumn({ name: 'merchantId' })
   public merchant: User;
 
   @ManyToOne(() => Category, (category) => category.products)
+  @JoinColumn()
   public category: Category;
 
   @CreateDateColumn({ type: 'timestamp' })
