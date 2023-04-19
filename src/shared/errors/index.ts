@@ -31,6 +31,11 @@ export const errorMessages = {
       en: 'category not found',
     },
   },
+  product: {
+    notFound: {
+      en: 'category not found',
+    },
+  },
   global: {
     internalError: {
       en: 'something went wrong',

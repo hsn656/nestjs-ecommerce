@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { productDetails } from '../product.types';
+import { ProductDetails } from '../productDetails';
 import { Category } from './category.entity';
 
 @Entity()
@@ -29,7 +29,7 @@ export class Product {
   public imageUrls: string[];
 
   @Column({ type: 'jsonb', nullable: true })
-  public details: Partial<productDetails> | null;
+  public details: Partial<ProductDetails> | null;
 
   @Column({ default: false })
   public isActive: boolean;

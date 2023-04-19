@@ -1,6 +1,6 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard, ProtectedRequest } from '../auth/guards/auth.guard';
 import { Serialize } from 'src/common/helper/serialize.interceptor';
 import { UserDto } from './user.dto';
 
@@ -11,7 +11,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Serialize(UserDto)
   @Get('profile')
-  profile(@Req() req: any) {
+  profile(@Req() req: ProtectedRequest) {
     return this.userService.findById(req.user.id);
   }
 }

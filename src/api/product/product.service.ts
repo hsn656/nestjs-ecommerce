@@ -5,6 +5,7 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { CreateProductDto } from './product.dto';
 import { Category } from './entities/category.entity';
 import { errorMessages } from 'src/shared/errors';
+import { ProductDetails } from './productDetails';
 
 @Injectable()
 export class ProductService {
@@ -30,5 +31,22 @@ export class ProductService {
     });
 
     return this.entityManager.save(product);
+  }
+
+  async addProductDetails(
+    productId,
+    details: ProductDetails,
+    merchantId: number,
+  ) {
+    const result = await this.entityManager
+      .createQueryBuilder()
+      .update(Product)
+      .set({ details, merchantId })
+      .where('id = :id', { id: productId })
+      .returning(['id', 'title', 'details'])
+      .execute();
+    if (result.affected < 1)
+      throw new NotFoundException(errorMessages.product.notFound.en);
+    return result.raw[0];
   }
 }

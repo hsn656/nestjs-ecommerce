@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsDefined,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+import { ProductDetails, ProductDetailsTypeFn } from './productDetails';
 
 export class CreateProductDto {
   @IsString()
@@ -8,4 +16,11 @@ export class CreateProductDto {
   @IsNumber()
   @IsNotEmpty()
   public categoryId: number;
+}
+
+export class ProductDetailsDto {
+  @IsDefined()
+  @Type(ProductDetailsTypeFn)
+  @ValidateNested()
+  public details: ProductDetails;
 }

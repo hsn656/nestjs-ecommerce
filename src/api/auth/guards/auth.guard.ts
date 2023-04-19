@@ -7,6 +7,11 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { errorMessages } from 'src/shared/errors';
 import { TokenExpiredError } from 'jsonwebtoken';
+import { PayloadDto } from '../auth.dto';
+
+export class ProtectedRequest extends Request {
+  user: PayloadDto;
+}
 
 @Injectable()
 export class AuthGuard implements CanActivate {
