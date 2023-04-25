@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getEntityManagerToken } from '@nestjs/typeorm';
-import { Product } from 'src/entities/product.entity';
+import { Product } from 'src/database/entities/product.entity';
 import { errorMessages } from 'src/shared/errors';
 import { EntityManager } from 'typeorm';
 import {
   Categories,
   Category,
   CategoryIds,
-} from '../../entities/category.entity';
+} from '../../database/entities/category.entity';
 import { ProductService } from './product.service';
 import { ComputerDetails } from './productDetails/computer.details';
 

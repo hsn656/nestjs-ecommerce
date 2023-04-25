@@ -3,10 +3,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { configuration } from 'src/config';
 import { errorMessages } from 'src/shared/errors';
-import { Role } from '../../entities/role.entity';
+import { Role } from '../../database/entities/role.entity';
 import { RoleIds, Roles } from '../role/role.enum';
 import { RoleService } from '../role/role.service';
-import { User } from '../../entities/user.entity';
+import { User } from '../../database/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 

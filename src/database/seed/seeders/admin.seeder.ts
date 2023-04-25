@@ -4,8 +4,8 @@ import { Repository, EntityManager } from 'typeorm';
 import { SeederInterface } from '../seeder.interface';
 import { hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'src/entities/user.entity';
-import { Role } from 'src/entities/role.entity';
+import { User } from 'src/database/entities/user.entity';
+import { Role } from 'src/database/entities/role.entity';
 
 @Injectable()
 export class AdminSeeder implements SeederInterface {

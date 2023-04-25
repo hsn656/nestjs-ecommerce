@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { TypeHelpOptions } from 'class-transformer';
-import { Categories } from '../../../entities/category.entity';
+import { Categories } from '../../../database/entities/category.entity';
 import { ComputerDetails } from './computer.details';
 import { TestDetails } from './test.details';
 
