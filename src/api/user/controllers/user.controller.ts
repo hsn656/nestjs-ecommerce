@@ -1,8 +1,8 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
-import { AuthGuard, ProtectedRequest } from '../auth/guards/auth.guard';
+import { AuthGuard, ProtectedRequest } from 'src/api/auth/guards/auth.guard';
 import { Serialize } from 'src/common/helper/serialize.interceptor';
-import { UserDto } from './user.dto';
+import { UserDto } from '../dto/user.dto';
+import { UserService } from '../services/user.service';
 
 @Controller('user')
 export class UserController {

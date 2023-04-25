@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getEntityManagerToken } from '@nestjs/typeorm';
-import { Product } from 'src/database/entities/product.entity';
-import { errorMessages } from 'src/shared/errors';
-import { EntityManager } from 'typeorm';
 import {
   Categories,
   Category,
   CategoryIds,
-} from '../../database/entities/category.entity';
+} from 'src/database/entities/category.entity';
+import { Product } from 'src/database/entities/product.entity';
+import { errorMessages } from 'src/shared/errors';
+import { EntityManager } from 'typeorm';
+import { ComputerDetails } from '../dto/productDetails/computer.details';
 import { ProductService } from './product.service';
-import { ComputerDetails } from './productDetails/computer.details';
 
 describe('ProductService', () => {
   let service: ProductService;

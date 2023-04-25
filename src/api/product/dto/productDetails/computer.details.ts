@@ -1,5 +1,5 @@
 import { IsIn, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { Categories } from '../../../database/entities/category.entity';
+import { Categories } from 'src/database/entities/category.entity';
 
 export class ComputerDetails {
   @IsString()

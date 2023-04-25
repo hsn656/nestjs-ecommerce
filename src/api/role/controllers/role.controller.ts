@@ -1,10 +1,10 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../auth/guards/auth.guard';
-import { Roles } from '../auth/roles.decorator';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { AssignRoleDto } from './role.dto';
-import { RoleIds } from './role.enum';
-import { RoleService } from './role.service';
+import { AuthGuard } from 'src/api/auth/guards/auth.guard';
+import { Roles } from 'src/api/auth/guards/roles.decorator';
+import { RolesGuard } from 'src/api/auth/guards/roles.guard';
+import { AssignRoleDto } from '../dto/role.dto';
+import { RoleIds } from '../enum/role.enum';
+import { RoleService } from '../services/role.service';
 
 @Controller('role')
 export class RoleController {

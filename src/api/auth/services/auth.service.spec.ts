@@ -3,12 +3,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { configuration } from 'src/config';
 import { errorMessages } from 'src/shared/errors';
-import { Role } from '../../database/entities/role.entity';
-import { RoleIds, Roles } from '../role/role.enum';
-import { RoleService } from '../role/role.service';
-import { User } from '../../database/entities/user.entity';
-import { UserService } from '../user/user.service';
+import { Role } from '../../../database/entities/role.entity';
+import { RoleIds, Roles } from '../../role/enum/role.enum';
+import { User } from '../../../database/entities/user.entity';
 import { AuthService } from './auth.service';
+import { RoleService } from 'src/api/role/services/role.service';
+import { UserService } from 'src/api/user/services/user.service';
 
 describe('AuthService', () => {
   let service: AuthService;

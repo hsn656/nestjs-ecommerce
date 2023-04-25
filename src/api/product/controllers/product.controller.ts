@@ -1,10 +1,10 @@
 import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard, ProtectedRequest } from '../auth/guards/auth.guard';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from '../auth/roles.decorator';
-import { RoleIds } from '../role/role.enum';
-import { CreateProductDto, ProductDetailsDto } from './product.dto';
-import { ProductService } from './product.service';
+import { AuthGuard, ProtectedRequest } from '../../auth/guards/auth.guard';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+import { Roles } from '../../auth/guards/roles.decorator';
+import { RoleIds } from '../../role/enum/role.enum';
+import { CreateProductDto, ProductDetailsDto } from '../dto/product.dto';
+import { ProductService } from '../services/product.service';
 
 @Controller('product')
 export class ProductController {

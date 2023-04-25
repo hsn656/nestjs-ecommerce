@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { errorMessages } from 'src/shared/errors';
 import { TokenExpiredError } from 'jsonwebtoken';
-import { PayloadDto } from '../auth.dto';
+import { PayloadDto } from '../dto/auth.dto';
 
 export class ProtectedRequest extends Request {
   user: PayloadDto;

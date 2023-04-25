@@ -1,4 +1,4 @@
-import { ProductDetails } from 'src/api/product/productDetails';
+import { ProductDetails } from 'src/api/product/dto/productDetails';
 import {
   Entity,
   Column,
