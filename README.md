@@ -49,3 +49,14 @@ npm run seed:run
 ```bash
 npm run start:dev
 ```
+
+## Testing
+To run the tests, follow these steps:
+1. Install dependencies: `npm install`
+2. Run the tests: `npm run test`
+
+## Contributing
+If you're interested in contributing to this project, please follow these guidelines:
+1. Fork the repository
+2. Make your changes
+3. Submit a pull request
