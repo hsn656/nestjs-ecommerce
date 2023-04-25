@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Category } from 'src/api/product/entities/category.entity';
-import { Role } from 'src/api/role/entities/role.entity';
-import { User } from 'src/api/user/entities/user.entity';
 import { configuration } from 'src/config';
+import { Category } from 'src/entities/category.entity';
+import { Role } from 'src/entities/role.entity';
+import { User } from 'src/entities/user.entity';
 import { TypeOrmConfigService } from 'src/shared/typeorm/typeorm.service';
 import { SeedService } from './seed.service';
 import { AdminSeeder } from './seeders/admin.seeder';

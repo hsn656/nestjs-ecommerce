@@ -1,4 +1,4 @@
-import { Product } from 'src/api/product/entities/product.entity';
+import { Product } from 'src/entities/product.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -9,7 +9,7 @@ import {
   JoinTable,
   OneToMany,
 } from 'typeorm';
-import { Role } from '../../role/entities/role.entity';
+import { Role } from './role.entity';
 
 @Entity()
 export class User {

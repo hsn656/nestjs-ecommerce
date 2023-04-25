@@ -1,3 +1,4 @@
+import { ProductDetails } from 'src/api/product/productDetails';
 import {
   Entity,
   Column,
@@ -7,9 +8,8 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
 } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
-import { ProductDetails } from '../productDetails';
 import { Category } from './category.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class Product {
