@@ -26,6 +26,25 @@ describe('ProductService', () => {
     merchantId: 1,
   } as Product;
 
+  const fulfilledProduct = {
+    id: 3,
+    title: 'test title',
+    description: 'description 1',
+    about: ['about 1'],
+    imageUrls: [],
+    details: {
+      brand: 'Dell',
+      series: 'XPS',
+      capacity: 2,
+      category: 'Computers',
+      capacityType: 'HD',
+      capacityUnit: 'TB',
+    },
+    isActive: true,
+    merchantId: 1,
+    categoryId: 1,
+  };
+
   const computerDetails: ComputerDetails = {
     category: Categories.Computers,
     capacity: 2,
@@ -104,7 +123,7 @@ describe('ProductService', () => {
   });
 
   describe('addProductDetails: add product details by updating exising product', () => {
-    it('should throw not found category', async () => {
+    it('should throw not found product', async () => {
       fakeEntityManager.createQueryBuilder().update = jest
         .fn()
         .mockReturnValueOnce({
@@ -138,6 +157,57 @@ describe('ProductService', () => {
 
       expect(fakeEntityManager.createQueryBuilder().update).toBeCalled();
       expect(result.id).toBe(testProduct.id);
+    });
+  });
+
+  describe('activateProduct: activate Product if its info is fulfilled', () => {
+    it('should throw not found product', async () => {
+      fakeEntityManager.findOne = jest.fn().mockReturnValueOnce(null);
+      const result = service.activateProduct(1, 1);
+
+      expect(fakeEntityManager.findOne).toBeCalled();
+      expect(result).rejects.toThrowError(
+        errorMessages.product.notFound.message,
+      );
+    });
+
+    it('should throw error if product not fulfilled', async () => {
+      fakeEntityManager.findOne = jest.fn().mockReturnValueOnce(new Product());
+      const result = service.activateProduct(1, 1);
+
+      expect(fakeEntityManager.findOne).toBeCalled();
+      expect(result).rejects.toThrowError(
+        errorMessages.product.notFulfilled.message,
+      );
+    });
+
+    it('should success', async () => {
+      const returnedActiveProduct = {
+        id: 1,
+        isActive: true,
+      };
+      fakeEntityManager.findOne = jest
+        .fn()
+        .mockReturnValueOnce(fulfilledProduct);
+
+      fakeEntityManager.createQueryBuilder().update = jest
+        .fn()
+        .mockReturnValueOnce({
+          set: jest.fn().mockReturnThis(),
+          where: jest.fn().mockReturnThis(),
+          andWhere: jest.fn().mockReturnThis(),
+          returning: jest.fn().mockReturnThis(),
+          execute: jest.fn().mockResolvedValueOnce({
+            affected: 1,
+            raw: [returnedActiveProduct],
+          }),
+        });
+      const result = await service.activateProduct(1, 1);
+
+      expect(fakeEntityManager.findOne).toBeCalled();
+      expect(fakeEntityManager.createQueryBuilder().update).toBeCalled();
+      expect(result.id).toBe(returnedActiveProduct.id);
+      expect(result.isActive).toBe(true);
     });
   });
 });

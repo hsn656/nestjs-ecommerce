@@ -1,10 +1,10 @@
 import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
-  IsArray,
   IsDefined,
   IsNotEmpty,
   IsNumber,
+  IsNumberString,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -33,4 +33,9 @@ export class ProductDetailsDto {
   @IsString()
   @IsNotEmpty()
   public description: string;
+}
+
+export class FindOneParams {
+  @IsNumberString()
+  id: number;
 }

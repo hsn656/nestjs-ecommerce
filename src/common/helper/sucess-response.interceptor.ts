@@ -15,6 +15,7 @@ export class SucessResponseInterceptor implements NestInterceptor {
           isSuccess: true,
           message: 'success',
           data,
+          errorCode: null,
           errors: [],
         };
       }),

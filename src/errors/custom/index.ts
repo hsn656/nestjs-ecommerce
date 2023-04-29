@@ -48,6 +48,10 @@ export const errorMessages = {
       message: 'product not found',
       code: '60401',
     },
+    notFulfilled: {
+      message: 'not all product info is fulfilled',
+      code: '60402',
+    },
   },
   global: {
     internalError: {
