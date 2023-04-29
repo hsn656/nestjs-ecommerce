@@ -24,10 +24,10 @@ export class User {
 
   @ManyToMany(() => Role, (role) => role.users)
   @JoinTable({ name: 'user_roles' })
-  roles: Role[];
+  public roles: Role[];
 
   @OneToMany(() => Product, (product) => product.merchant)
-  products: Product;
+  public products: Product;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

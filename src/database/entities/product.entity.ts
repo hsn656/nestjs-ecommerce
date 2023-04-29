@@ -59,7 +59,7 @@ export class Product {
   @Column({ type: 'int', nullable: true })
   @IsDefined()
   @IsNumber()
-  merchantId: number;
+  public merchantId: number;
 
   @ManyToOne(() => User, (user) => user.products)
   @JoinColumn({ name: 'merchantId' })
@@ -72,7 +72,7 @@ export class Product {
   @Column({ type: 'int', nullable: true })
   @IsDefined()
   @IsNumber()
-  categoryId: number;
+  public categoryId: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

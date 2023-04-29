@@ -3,7 +3,11 @@ import { Promise as Bluebird } from 'bluebird';
 import { SeederInterface } from './seeder.interface';
 import { AdminSeeder } from './seeders/admin.seeder';
 import { CategorySeeder } from './seeders/category.seeder';
+import { ColorSeeder } from './seeders/color.seeder';
+import { CountrySeeder } from './seeders/country.seeder';
+import { CurrencySeeder } from './seeders/currency.seeder';
 import { RolesSeeder } from './seeders/role.seeder';
+import { SizeSeeder } from './seeders/size.seeder';
 
 @Injectable()
 export class SeedService {
@@ -11,11 +15,23 @@ export class SeedService {
   private readonly logger = new Logger(SeedService.name);
 
   constructor(
-    private readonly rolesSeeder: RolesSeeder,
-    private readonly adminSeeder: AdminSeeder,
-    private readonly categoriesSeeder: CategorySeeder,
+    rolesSeeder: RolesSeeder,
+    adminSeeder: AdminSeeder,
+    categoriesSeeder: CategorySeeder,
+    sizesSeeder: SizeSeeder,
+    colorsSeeder: ColorSeeder,
+    countrySeeder: CountrySeeder,
+    currencySeeder: CurrencySeeder,
   ) {
-    this.seeders = [this.rolesSeeder, this.adminSeeder, this.categoriesSeeder];
+    this.seeders = [
+      rolesSeeder,
+      adminSeeder,
+      categoriesSeeder,
+      sizesSeeder,
+      colorsSeeder,
+      countrySeeder,
+      currencySeeder,
+    ];
   }
 
   async seed() {
