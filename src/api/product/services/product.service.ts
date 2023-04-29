@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { CreateProductDto } from '../dto/product.dto';
+import { CreateProductDto, ProductDetailsDto } from '../dto/product.dto';
 import { Category } from '../../../database/entities/category.entity';
 import { Product } from 'src/database/entities/product.entity';
-import { ProductDetails } from '../dto/productDetails';
 import { errorMessages } from 'src/errors/custom';
 
 @Injectable()
@@ -34,15 +33,20 @@ export class ProductService {
 
   async addProductDetails(
     productId,
-    details: ProductDetails,
+    body: ProductDetailsDto,
     merchantId: number,
   ) {
     const result = await this.entityManager
       .createQueryBuilder()
-      .update(Product)
-      .set({ details, merchantId })
+      .update<Product>(Product)
+      .set({
+        details: body.details,
+        about: body.about,
+        description: body.description,
+      })
       .where('id = :id', { id: productId })
-      .returning(['id', 'title', 'details'])
+      .andWhere('merchantId = :merchantId', { merchantId })
+      .returning(['id'])
       .execute();
     if (result.affected < 1)
       throw new NotFoundException(errorMessages.product.notFound);

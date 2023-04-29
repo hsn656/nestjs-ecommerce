@@ -23,7 +23,7 @@ export class ErrorsFilter implements ExceptionFilter {
       const httpStatus =
         exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
       const errorMessage = (exception.getResponse() as HttpException).message;
-      const errorCode = (exception.getResponse() as ErrorBody).code;
+      const errorCode = (exception.getResponse() as ErrorBody).code || '60400';
       const errors = Array.isArray(errorMessage)
         ? errorMessage
         : [errorMessage];

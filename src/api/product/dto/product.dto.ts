@@ -1,5 +1,7 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayMinSize,
+  IsArray,
   IsDefined,
   IsNotEmpty,
   IsNumber,
@@ -23,4 +25,12 @@ export class ProductDetailsDto {
   @Type(ProductDetailsTypeFn)
   @ValidateNested()
   public details: ProductDetails;
+
+  @ArrayMinSize(1)
+  @IsString({ each: true })
+  public about: string[];
+
+  @IsString()
+  @IsNotEmpty()
+  public description: string;
 }

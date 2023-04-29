@@ -8,6 +8,7 @@ import {
 import { Product } from 'src/database/entities/product.entity';
 import { errorMessages } from 'src/errors/custom';
 import { EntityManager } from 'typeorm';
+import { ProductDetailsDto } from '../dto/product.dto';
 import { ComputerDetails } from '../dto/productDetails/computer.details';
 import { ProductService } from './product.service';
 
@@ -32,6 +33,12 @@ describe('ProductService', () => {
     capacityType: 'HD',
     brand: 'Dell',
     series: 'XPS',
+  };
+
+  const productDetails: ProductDetailsDto = {
+    details: computerDetails,
+    about: ['about 1'],
+    description: 'test description',
   };
 
   beforeEach(async () => {
@@ -103,10 +110,11 @@ describe('ProductService', () => {
         .mockReturnValueOnce({
           set: jest.fn().mockReturnThis(),
           where: jest.fn().mockReturnThis(),
+          andWhere: jest.fn().mockReturnThis(),
           returning: jest.fn().mockReturnThis(),
           execute: jest.fn().mockResolvedValueOnce({ affected: 0, raw: [] }),
         });
-      const result = service.addProductDetails(1, computerDetails, 1);
+      const result = service.addProductDetails(1, productDetails, 1);
 
       expect(fakeEntityManager.createQueryBuilder().update).toBeCalled();
       expect(result).rejects.toThrowError(
@@ -120,12 +128,13 @@ describe('ProductService', () => {
         .mockReturnValueOnce({
           set: jest.fn().mockReturnThis(),
           where: jest.fn().mockReturnThis(),
+          andWhere: jest.fn().mockReturnThis(),
           returning: jest.fn().mockReturnThis(),
           execute: jest
             .fn()
             .mockResolvedValueOnce({ affected: 1, raw: [testProduct] }),
         });
-      const result = await service.addProductDetails(1, computerDetails, 1);
+      const result = await service.addProductDetails(1, productDetails, 1);
 
       expect(fakeEntityManager.createQueryBuilder().update).toBeCalled();
       expect(result.id).toBe(testProduct.id);

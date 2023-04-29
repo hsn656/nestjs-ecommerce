@@ -28,10 +28,6 @@ export class ProductController {
     @Body() body: ProductDetailsDto,
     @Req() req: ProtectedRequest,
   ) {
-    return this.productService.addProductDetails(
-      productId,
-      body.details,
-      req.user.id,
-    );
+    return this.productService.addProductDetails(productId, body, req.user.id);
   }
 }
