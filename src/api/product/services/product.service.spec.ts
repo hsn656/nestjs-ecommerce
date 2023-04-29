@@ -6,7 +6,7 @@ import {
   CategoryIds,
 } from 'src/database/entities/category.entity';
 import { Product } from 'src/database/entities/product.entity';
-import { errorMessages } from 'src/shared/errors';
+import { errorMessages } from 'src/errors/custom';
 import { EntityManager } from 'typeorm';
 import { ComputerDetails } from '../dto/productDetails/computer.details';
 import { ProductService } from './product.service';
@@ -76,7 +76,9 @@ describe('ProductService', () => {
       );
 
       expect(fakeEntityManager.findOne).toBeCalled();
-      expect(result).rejects.toThrowError(errorMessages.category.notFound.en);
+      expect(result).rejects.toThrowError(
+        errorMessages.category.notFound.message,
+      );
     });
 
     it('should success', async () => {
@@ -107,7 +109,9 @@ describe('ProductService', () => {
       const result = service.addProductDetails(1, computerDetails, 1);
 
       expect(fakeEntityManager.createQueryBuilder().update).toBeCalled();
-      expect(result).rejects.toThrowError(errorMessages.product.notFound.en);
+      expect(result).rejects.toThrowError(
+        errorMessages.product.notFound.message,
+      );
     });
 
     it('should success', async () => {

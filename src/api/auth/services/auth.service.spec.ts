@@ -2,13 +2,13 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { configuration } from 'src/config';
-import { errorMessages } from 'src/shared/errors';
 import { Role } from '../../../database/entities/role.entity';
 import { RoleIds, Roles } from '../../role/enum/role.enum';
 import { User } from '../../../database/entities/user.entity';
 import { AuthService } from './auth.service';
 import { RoleService } from 'src/api/role/services/role.service';
 import { UserService } from 'src/api/user/services/user.service';
+import { errorMessages } from 'src/errors/custom';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -96,7 +96,7 @@ describe('AuthService', () => {
         password: 'password',
       });
       expect(result).rejects.toThrowError(
-        errorMessages.auth.userAlreadyExist.en,
+        errorMessages.auth.userAlreadyExist.message,
       );
     });
   });
@@ -120,7 +120,7 @@ describe('AuthService', () => {
         password: 'password',
       });
       expect(result).rejects.toThrowError(
-        errorMessages.auth.wronCredentials.en,
+        errorMessages.auth.wronCredentials.message,
       );
     });
 
@@ -133,7 +133,7 @@ describe('AuthService', () => {
         password: 'password',
       });
       expect(result).rejects.toThrowError(
-        errorMessages.auth.wronCredentials.en,
+        errorMessages.auth.wronCredentials.message,
       );
     });
   });

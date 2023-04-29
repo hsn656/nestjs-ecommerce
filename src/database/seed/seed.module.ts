@@ -5,7 +5,7 @@ import { configuration } from 'src/config';
 import { Category } from 'src/database/entities/category.entity';
 import { Role } from 'src/database/entities/role.entity';
 import { User } from 'src/database/entities/user.entity';
-import { TypeOrmConfigService } from 'src/shared/typeorm/typeorm.service';
+import { TypeOrmConfigService } from 'src/database/typeorm/typeorm.service';
 import { SeedService } from './seed.service';
 import { AdminSeeder } from './seeders/admin.seeder';
 import { CategorySeeder } from './seeders/category.seeder';

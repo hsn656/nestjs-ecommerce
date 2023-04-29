@@ -4,9 +4,9 @@ import { RoleService } from './role.service';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { RoleIds, Roles } from '../enum/role.enum';
-import { errorMessages } from 'src/shared/errors';
 import { User } from '../../../database/entities/user.entity';
 import { UserService } from 'src/api/user/services/user.service';
+import { errorMessages } from 'src/errors/custom';
 
 describe('RoleService', () => {
   let service: RoleService;
@@ -77,7 +77,7 @@ describe('RoleService', () => {
       const result = service.findById(1);
 
       expect(fakeRoleRepo.findOne).toBeCalled();
-      expect(result).rejects.toThrowError(errorMessages.role.notFound.en);
+      expect(result).rejects.toThrowError(errorMessages.role.notFound.message);
     });
   });
 

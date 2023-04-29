@@ -7,7 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { errorMessages } from 'src/shared/errors';
+import { ErrorBody, errorMessages } from './custom';
 
 @Catch()
 export class ErrorsFilter implements ExceptionFilter {
@@ -23,12 +23,14 @@ export class ErrorsFilter implements ExceptionFilter {
       const httpStatus =
         exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
       const errorMessage = (exception.getResponse() as HttpException).message;
+      const errorCode = (exception.getResponse() as ErrorBody).code;
       const errors = Array.isArray(errorMessage)
         ? errorMessage
         : [errorMessage];
       const responseBody = {
         isSuccess: false,
         message,
+        errorCode,
         data: null,
         errors,
       };
@@ -37,9 +39,10 @@ export class ErrorsFilter implements ExceptionFilter {
     } else {
       const responseBody = {
         isSuccess: false,
-        message: errorMessages.global.internalError.en,
+        message: errorMessages.global.internalError.message,
+        errorCode: errorMessages.global.internalError.code,
         data: null,
-        errors: [errorMessages.global.internalError.en],
+        errors: [errorMessages.global.internalError.message],
       };
 
       httpAdapter.reply(

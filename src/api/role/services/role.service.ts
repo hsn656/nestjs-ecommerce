@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { errorMessages } from 'src/shared/errors';
 import { Role } from 'src/database/entities/role.entity';
 import { AssignRoleDto } from '../dto/role.dto';
 import { UserService } from 'src/api/user/services/user.service';
+import { errorMessages } from 'src/errors/custom';
 
 @Injectable()
 export class RoleService {
@@ -29,7 +29,7 @@ export class RoleService {
       },
     });
     if (!role) {
-      throw new NotFoundException(errorMessages.role.notFound.en);
+      throw new NotFoundException(errorMessages.role.notFound);
     }
     return role;
   }

@@ -9,7 +9,7 @@ import { RoleIds } from 'src/api/role/enum/role.enum';
 import { RoleService } from 'src/api/role/services/role.service';
 import { CreateUserDto } from 'src/api/user/dto/user.dto';
 import { UserService } from 'src/api/user/services/user.service';
-import { errorMessages } from 'src/shared/errors';
+import { errorMessages } from 'src/errors/custom';
 import { PayloadDto } from '../dto/auth.dto';
 
 @Injectable()
@@ -25,14 +25,14 @@ export class AuthService {
     const { email, password } = user;
     const alreadyExistingUser = await this.userService.findByEmail(email);
     if (!alreadyExistingUser)
-      throw new UnauthorizedException(errorMessages.auth.wronCredentials.en);
+      throw new UnauthorizedException(errorMessages.auth.wronCredentials);
 
     const isValidPassword = await this.userService.comparePassword(
       password,
       alreadyExistingUser.password,
     );
     if (!isValidPassword)
-      throw new UnauthorizedException(errorMessages.auth.wronCredentials.en);
+      throw new UnauthorizedException(errorMessages.auth.wronCredentials);
     return this.generateToken({
       id: alreadyExistingUser.id,
       email,
@@ -42,7 +42,7 @@ export class AuthService {
   async register(user: CreateUserDto) {
     const alreadyExistingUser = await this.userService.findByEmail(user.email);
     if (alreadyExistingUser)
-      throw new ConflictException(errorMessages.auth.userAlreadyExist.en);
+      throw new ConflictException(errorMessages.auth.userAlreadyExist);
 
     const customerRole = await this.roleService.findById(RoleIds.Customer);
 

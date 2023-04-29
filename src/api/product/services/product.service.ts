@@ -3,9 +3,9 @@ import { EntityManager } from 'typeorm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { CreateProductDto } from '../dto/product.dto';
 import { Category } from '../../../database/entities/category.entity';
-import { errorMessages } from 'src/shared/errors';
 import { Product } from 'src/database/entities/product.entity';
 import { ProductDetails } from '../dto/productDetails';
+import { errorMessages } from 'src/errors/custom';
 
 @Injectable()
 export class ProductService {
@@ -21,8 +21,7 @@ export class ProductService {
       },
     });
 
-    if (!category)
-      throw new NotFoundException(errorMessages.category.notFound.en);
+    if (!category) throw new NotFoundException(errorMessages.category.notFound);
 
     const product = await this.entityManager.create(Product, {
       title: data.title,
@@ -46,7 +45,7 @@ export class ProductService {
       .returning(['id', 'title', 'details'])
       .execute();
     if (result.affected < 1)
-      throw new NotFoundException(errorMessages.product.notFound.en);
+      throw new NotFoundException(errorMessages.product.notFound);
     return result.raw[0];
   }
 }

@@ -2,7 +2,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configuration } from 'src/config';
-import { TypeOrmConfigService } from 'src/shared/typeorm/typeorm.service';
+import { TypeOrmConfigService } from 'src/database/typeorm/typeorm.service';
 import { AuthModule } from '../../auth/auth.module';
 import { RoleController } from './role.controller';
 import { Role } from '../../../database/entities/role.entity';

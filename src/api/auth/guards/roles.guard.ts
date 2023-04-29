@@ -4,9 +4,9 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
-import { errorMessages } from 'src/shared/errors';
 import { Reflector } from '@nestjs/core';
 import { UserService } from 'src/api/user/services/user.service';
+import { errorMessages } from 'src/errors/custom';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -22,6 +22,6 @@ export class RolesGuard implements CanActivate {
       roles: true,
     });
     if (user.roles.some((userRole) => roles.includes(userRole.id))) return true;
-    else throw new UnauthorizedException(errorMessages.auth.notAllowed.en);
+    else throw new UnauthorizedException(errorMessages.auth.notAllowed);
   }
 }

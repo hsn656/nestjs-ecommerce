@@ -3,8 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from 'src/app.module';
 import { Repository } from 'typeorm';
-import { User } from 'src/api/user/entities/user.entity';
-import { errorMessages } from 'src/shared/errors';
+import { User } from 'src/database/entities/user.entity';
+import { errorMessages } from 'src/errors/custom';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -45,7 +45,7 @@ describe('AuthController (e2e)', () => {
 
       expect(response.body.isSuccess).toBe(false);
       expect(response.body.message).toBe(
-        errorMessages.auth.userAlreadyExist.en,
+        errorMessages.auth.userAlreadyExist.message,
       );
     });
   });
@@ -69,7 +69,9 @@ describe('AuthController (e2e)', () => {
           password: 'wrong password',
         });
       expect(response.body.isSuccess).toBe(false);
-      expect(response.body.message).toBe(errorMessages.auth.wronCredentials.en);
+      expect(response.body.message).toBe(
+        errorMessages.auth.wronCredentials.message,
+      );
     });
 
     it('should fail if wrong email', async () => {
@@ -81,7 +83,9 @@ describe('AuthController (e2e)', () => {
           email: 'wrong@test.com',
         });
       expect(response.body.isSuccess).toBe(false);
-      expect(response.body.message).toBe(errorMessages.auth.wronCredentials.en);
+      expect(response.body.message).toBe(
+        errorMessages.auth.wronCredentials.message,
+      );
     });
   });
 });

@@ -5,8 +5,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { errorMessages } from 'src/shared/errors';
 import { TokenExpiredError } from 'jsonwebtoken';
+import { errorMessages } from 'src/errors/custom';
 import { PayloadDto } from '../dto/auth.dto';
 
 export class ProtectedRequest extends Request {
@@ -27,8 +27,8 @@ export class AuthGuard implements CanActivate {
       return true;
     } catch (error) {
       if (error instanceof TokenExpiredError)
-        throw new UnauthorizedException(errorMessages.auth.expiredToken.en);
-      throw new UnauthorizedException(errorMessages.auth.invlidToken.en);
+        throw new UnauthorizedException(errorMessages.auth.expiredToken);
+      throw new UnauthorizedException(errorMessages.auth.invlidToken);
     }
   }
 }
