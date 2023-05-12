@@ -1,7 +1,4 @@
-import { Body, Controller, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../../auth/guards/auth.guard';
-import { RolesGuard } from '../../auth/guards/roles.guard';
-import { Roles } from '../../auth/guards/roles.decorator';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { RoleIds } from '../../role/enum/role.enum';
 import {
   CreateProductDto,
@@ -11,13 +8,13 @@ import {
 import { ProductService } from '../services/product.service';
 import { PayloadDto } from 'src/api/auth/dto/auth.dto';
 import { User } from 'src/api/auth/guards/user.decorator';
+import { Auth } from 'src/api/auth/guards/auth.decorator';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Roles(RoleIds.Merchant, RoleIds.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  @Auth(RoleIds.Admin, RoleIds.Merchant)
   @Post('create')
   async createProduct(
     @Body() body: CreateProductDto,
@@ -26,8 +23,7 @@ export class ProductController {
     return this.productService.createProduct(body, user.id);
   }
 
-  @Roles(RoleIds.Merchant, RoleIds.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  @Auth(RoleIds.Admin, RoleIds.Merchant)
   @Post(':id/details')
   async addProductDetails(
     @Param() product: FindOneParams,
@@ -37,8 +33,7 @@ export class ProductController {
     return this.productService.addProductDetails(product.id, body, user.id);
   }
 
-  @Roles(RoleIds.Merchant, RoleIds.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
+  @Auth(RoleIds.Admin, RoleIds.Merchant)
   @Post(':id/activate')
   async activateProduct(
     @Param() product: FindOneParams,
