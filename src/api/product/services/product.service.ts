@@ -3,13 +3,14 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { EntityManager } from 'typeorm';
+import { DeleteResult, EntityManager } from 'typeorm';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { CreateProductDto, ProductDetailsDto } from '../dto/product.dto';
 import { Category } from '../../../database/entities/category.entity';
 import { Product } from 'src/database/entities/product.entity';
 import { errorMessages } from 'src/errors/custom';
 import { validate } from 'class-validator';
+import { successObject } from 'src/common/helper/sucess-response.interceptor';
 
 @Injectable()
 export class ProductService {
@@ -97,5 +98,20 @@ export class ProductService {
     if (errors.length > 0) return false;
 
     return true;
+  }
+
+  async deleteProduct(productId: number, merchantId: number) {
+    const result = await this.entityManager
+      .createQueryBuilder()
+      .delete()
+      .from(Product)
+      .where('id = :productId', { productId })
+      .andWhere('merchantId = :merchantId', { merchantId })
+      .execute();
+
+    if (result.affected < 1)
+      throw new NotFoundException(errorMessages.product.notFound);
+
+    return successObject;
   }
 }

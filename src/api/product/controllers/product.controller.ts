@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { RoleIds } from '../../role/enum/role.enum';
 import { CreateProductDto, ProductDetailsDto } from '../dto/product.dto';
 import { ProductService } from '../services/product.service';
@@ -42,5 +42,14 @@ export class ProductController {
     @CurrentUser() user: User,
   ) {
     return this.productService.activateProduct(product.id, user.id);
+  }
+
+  @Auth(RoleIds.Admin, RoleIds.Merchant)
+  @Delete(':id')
+  async deleteProduct(
+    @Param() product: FindOneParams,
+    @CurrentUser() user: User,
+  ) {
+    return this.productService.deleteProduct(product.id, user.id);
   }
 }

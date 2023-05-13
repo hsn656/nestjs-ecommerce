@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getEntityManagerToken } from '@nestjs/typeorm';
+import { successObject } from 'src/common/helper/sucess-response.interceptor';
 import {
   Categories,
   Category,
@@ -74,6 +75,7 @@ describe('ProductService', () => {
       create: jest.fn().mockResolvedValue(testProduct),
       createQueryBuilder: jest.fn().mockReturnValue({
         update: jest.fn(),
+        delete: jest.fn(),
       }),
     };
     const module: TestingModule = await Test.createTestingModule({
@@ -228,6 +230,40 @@ describe('ProductService', () => {
       expect(fakeEntityManager.createQueryBuilder().update).toBeCalled();
       expect(result.id).toBe(returnedActiveProduct.id);
       expect(result.isActive).toBe(true);
+    });
+  });
+
+  describe('deleteProduct: delete product by id', () => {
+    it('should throw not found product', async () => {
+      fakeEntityManager.createQueryBuilder().delete = jest
+        .fn()
+        .mockReturnValueOnce({
+          from: jest.fn().mockReturnThis(),
+          where: jest.fn().mockReturnThis(),
+          andWhere: jest.fn().mockReturnThis(),
+          execute: jest.fn().mockResolvedValueOnce({ affected: 0, raw: [] }),
+        });
+      const result = service.deleteProduct(1, 1);
+
+      expect(fakeEntityManager.createQueryBuilder().delete).toBeCalled();
+      expect(result).rejects.toThrowError(
+        errorMessages.product.notFound.message,
+      );
+    });
+
+    it('should success', async () => {
+      fakeEntityManager.createQueryBuilder().delete = jest
+        .fn()
+        .mockReturnValueOnce({
+          from: jest.fn().mockReturnThis(),
+          where: jest.fn().mockReturnThis(),
+          andWhere: jest.fn().mockReturnThis(),
+          execute: jest.fn().mockResolvedValueOnce({ affected: 1, raw: [] }),
+        });
+      const result = await service.deleteProduct(1, 1);
+
+      expect(fakeEntityManager.createQueryBuilder().delete).toBeCalled();
+      expect(result.message).toBe(successObject.message);
     });
   });
 });

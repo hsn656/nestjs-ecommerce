@@ -22,3 +22,7 @@ export class SucessResponseInterceptor implements NestInterceptor {
     );
   }
 }
+
+export const successObject = {
+  message: 'success',
+};
