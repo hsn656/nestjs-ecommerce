@@ -56,16 +56,7 @@ export class ProductService {
   }
 
   async activateProduct(productId: number, merchantId: number) {
-    const product = await this.entityManager.findOne(Product, {
-      where: {
-        id: productId,
-        merchantId: merchantId,
-      },
-    });
-    if (!product) throw new NotFoundException(errorMessages.product.notFound);
-    const errors = await validate(product);
-
-    if (errors.length > 0)
+    if (!(await this.validate(productId)))
       throw new ConflictException(errorMessages.product.notFulfilled);
 
     const result = await this.entityManager
@@ -75,9 +66,24 @@ export class ProductService {
         isActive: true,
       })
       .where('id = :id', { id: productId })
+      .andWhere('merchantId = :merchantId', { merchantId })
       .returning(['id', 'isActive'])
       .execute();
 
     return result.raw[0];
+  }
+
+  async validate(productId: number) {
+    const product = await this.entityManager.findOne(Product, {
+      where: {
+        id: productId,
+      },
+    });
+    if (!product) throw new NotFoundException(errorMessages.product.notFound);
+    const errors = await validate(product);
+
+    if (errors.length > 0) return false;
+
+    return true;
   }
 }
