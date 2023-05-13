@@ -37,6 +37,11 @@ npm install
 ```bash
 npm run migration:run
 ```
+if you want to generate any future migration
+
+```bash
+npm run migration:generate --name=<migrationName>
+```
 
 - run database seeders.
 
