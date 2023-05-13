@@ -28,7 +28,6 @@ export class ProductService {
     if (!category) throw new NotFoundException(errorMessages.category.notFound);
 
     const product = await this.entityManager.create(Product, {
-      title: data.title,
       category,
       merchantId,
     });
@@ -45,9 +44,7 @@ export class ProductService {
       .createQueryBuilder()
       .update<Product>(Product)
       .set({
-        details: body.details,
-        about: body.about,
-        description: body.description,
+        ...body,
       })
       .where('id = :id', { id: productId })
       .andWhere('merchantId = :merchantId', { merchantId })

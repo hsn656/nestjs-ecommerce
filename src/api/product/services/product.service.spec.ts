@@ -5,7 +5,7 @@ import {
   Category,
   CategoryIds,
 } from 'src/database/entities/category.entity';
-import { Product } from 'src/database/entities/product.entity';
+import { Product, VariationTypes } from 'src/database/entities/product.entity';
 import { errorMessages } from 'src/errors/custom';
 import { EntityManager } from 'typeorm';
 import { ProductDetailsDto } from '../dto/product.dto';
@@ -57,6 +57,9 @@ describe('ProductService', () => {
     details: computerDetails,
     about: ['about 1'],
     description: 'test description',
+    code: 'test UPC code',
+    title: 'test title',
+    variationType: VariationTypes.NONE,
   };
 
   beforeEach(async () => {
@@ -95,7 +98,6 @@ describe('ProductService', () => {
       const result = service.createProduct(
         {
           categoryId: 1,
-          title: 'test title',
         },
         1,
       );
@@ -110,7 +112,6 @@ describe('ProductService', () => {
       const result = await service.createProduct(
         {
           categoryId: 1,
-          title: 'test title',
         },
         1,
       );

@@ -1,14 +1,11 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { RoleIds } from '../../role/enum/role.enum';
-import {
-  CreateProductDto,
-  FindOneParams,
-  ProductDetailsDto,
-} from '../dto/product.dto';
+import { CreateProductDto, ProductDetailsDto } from '../dto/product.dto';
 import { ProductService } from '../services/product.service';
 import { PayloadDto } from 'src/api/auth/dto/auth.dto';
 import { User } from 'src/api/auth/guards/user.decorator';
 import { Auth } from 'src/api/auth/guards/auth.decorator';
+import { FindOneParams } from 'src/common/helper/findOneParams.dto';
 
 @Controller('product')
 export class ProductController {

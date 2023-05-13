@@ -30,18 +30,18 @@ export class Product {
   @IsNumber()
   public id!: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   @IsDefined()
   @IsString()
   @Index()
   public code: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   @IsDefined()
   @IsString()
   public title: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   @IsDefined()
   @IsString()
   public variationType: string;
@@ -96,3 +96,4 @@ export enum VariationTypes {
   OnlyColor = 'OnlyColor',
   SizeAndColor = 'SizeAndColor',
 }
+export const variationTypesKeys = Object.keys(VariationTypes);
