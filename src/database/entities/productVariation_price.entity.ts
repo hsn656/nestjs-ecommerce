@@ -8,10 +8,11 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Country } from './country.entity';
+import { Currency } from './currency.entity';
 import { ProductVariation } from './productVariation.entity';
 
 @Entity()
-export class Inventory {
+export class ProductVariationPrice {
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -29,8 +30,15 @@ export class Inventory {
   @Column({ type: 'varchar', length: 7 })
   public countryCode: string;
 
-  @Column({ type: 'int' })
-  public quantity: number;
+  @ManyToOne(() => Currency)
+  @JoinColumn({ name: 'currencyCode' })
+  public currency: Currency;
+
+  @Column({ type: 'varchar', length: 7 })
+  public currencyCode: string;
+
+  @Column({ type: 'float' })
+  public price: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   public createdAt!: Date;

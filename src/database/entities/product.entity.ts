@@ -18,6 +18,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   JoinColumn,
+  Index,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { User } from './user.entity';
@@ -32,7 +33,18 @@ export class Product {
   @Column({ type: 'varchar' })
   @IsDefined()
   @IsString()
+  @Index()
+  public code: string;
+
+  @Column({ type: 'varchar' })
+  @IsDefined()
+  @IsString()
   public title: string;
+
+  @Column({ type: 'varchar' })
+  @IsDefined()
+  @IsString()
+  public variationType: string;
 
   @Column({ type: 'text', nullable: true })
   @IsDefined()
@@ -43,9 +55,6 @@ export class Product {
   @ArrayMinSize(1)
   @IsString({ each: true })
   public about?: string[];
-
-  @Column({ type: 'text', array: true, default: [] })
-  public imageUrls: string[];
 
   @Column({ type: 'jsonb', nullable: true })
   @IsDefined()
@@ -79,4 +88,11 @@ export class Product {
 
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
+}
+
+export enum VariationTypes {
+  NONE = 'NONE',
+  OnlySize = 'OnlySize',
+  OnlyColor = 'OnlyColor',
+  SizeAndColor = 'SizeAndColor',
 }

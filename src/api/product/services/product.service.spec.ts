@@ -31,7 +31,6 @@ describe('ProductService', () => {
     title: 'test title',
     description: 'description 1',
     about: ['about 1'],
-    imageUrls: [],
     details: {
       brand: 'Dell',
       series: 'XPS',
