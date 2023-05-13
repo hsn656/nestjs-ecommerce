@@ -18,6 +18,18 @@ export class ProductService {
     private readonly entityManager: EntityManager,
   ) {}
 
+  async getProduct(productId: number) {
+    const product = await this.entityManager.findOne(Product, {
+      where: {
+        id: productId,
+      },
+    });
+
+    if (!product) throw new NotFoundException(errorMessages.product.notFound);
+
+    return product;
+  }
+
   async createProduct(data: CreateProductDto, merchantId: number) {
     const category = await this.entityManager.findOne(Category, {
       where: {

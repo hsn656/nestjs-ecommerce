@@ -19,6 +19,7 @@ describe('ProductService', () => {
     id: CategoryIds.Computers,
     name: Categories.Computers,
   } as Category;
+
   const testProduct = {
     id: 1,
     title: 'test title',
@@ -90,6 +91,25 @@ describe('ProductService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('getProduct: get product by id', () => {
+    it('should throw not found product', async () => {
+      fakeEntityManager.findOne = jest.fn().mockResolvedValue(null);
+      const result = service.getProduct(1);
+
+      expect(fakeEntityManager.findOne).toBeCalled();
+      expect(result).rejects.toThrowError(
+        errorMessages.product.notFound.message,
+      );
+    });
+
+    it('should success', async () => {
+      fakeEntityManager.findOne = jest.fn().mockResolvedValue(testProduct);
+      const result = await service.getProduct(1);
+      expect(fakeEntityManager.findOne).toBeCalled();
+      expect(result.id).toBe(testProduct.id);
+    });
   });
 
   describe('createProduct: create initial inActive product', () => {

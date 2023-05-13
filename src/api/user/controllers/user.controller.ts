@@ -1,8 +1,8 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { PayloadDto } from 'src/api/auth/dto/auth.dto';
+import { Controller, Get } from '@nestjs/common';
 import { Auth } from 'src/api/auth/guards/auth.decorator';
-import { User } from 'src/api/auth/guards/user.decorator';
+import { CurrentUser } from 'src/api/auth/guards/user.decorator';
 import { Serialize } from 'src/common/helper/serialize.interceptor';
+import { User } from 'src/database/entities/user.entity';
 import { UserDto } from '../dto/user.dto';
 import { UserService } from '../services/user.service';
 
@@ -13,7 +13,7 @@ export class UserController {
   @Auth()
   @Serialize(UserDto)
   @Get('profile')
-  profile(@User() user: PayloadDto) {
+  profile(@CurrentUser() user: User) {
     return this.userService.findById(user.id);
   }
 }
